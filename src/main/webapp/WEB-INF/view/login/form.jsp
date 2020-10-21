@@ -10,59 +10,30 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form:form modelAttribute="login" method="post" action="result">
+	<form:form modelAttribute="login" action="result">
 		<p>
 			<label for="loginType">로그인 타입</label>
-			<%-- <form:select path="loginType" items="${loginTypes}" /> --%>
+			<form:select path="loginType" items="${loginTypes}" /> 
+		</p>	
+		<p>
+			<label for="loginType">로그인 타입</label>
 			<form:select path="loginType">
-				<option value="none">--- 선택하세요---</option>
-				<form:options items="${loginTypes}" />
-			</form:select>
+				<option value="">-- 선택하세요 </option>
+				<form:options items="${loginTypes }"/>
+			</form:select> 
 		</p>
-<%-- 		<c:if test="${jobCodes != null}">
-			<p>
-				<label for="jobCode">직군</label>
-				<form:select path="jobCode">
-					<option value="">-- 선택하세요---</option>
-					<form:options items="${jobCodes}" itemValue="label"
-						itemLabel="code" />
-				</form:select>
-			</p>
-		</c:if>
-
-		<c:if test="${favoriteOsNames != null}">
-			<p>
-				<label for="favoriteOs">선호 OS</label><br>
-				<form:checkboxes items="${favoriteOsNames}" path="favoriteOs" />
-			</p>
-		</c:if>
-
-		<c:if test="${osCodes != null}">
-			<p>
-				<label for="osCode">선호 OS</label><br>
-				<form:checkboxes items="${osCodes}" itemValue="code"
-					itemLabel="label" path="osCode" />
-			</p>
-		</c:if>
- --%>
 		<p>
-		<br>
-		<form:checkbox path="allowNoti" label="이메일을 수신합니다." />
-		</p>
-
-		<c:if test="${tools != null}">
-			<p>
-				<label>주로 사용하는 개발 툴</label>
-				<br>
-				<form:radiobuttons items="${tools}" path="tool" />
-			</p>
-		</c:if>
-
-		<p>
-			<label for="etc"> 기타 </label> <br>
-			<form:textarea path="etc" cols="20" rows="3" />
+			<label for="jobCode">직군</label>
+			<form:select path="jobCode">
+				<option value="">-- 선택하세요 </option>
+				<form:options items="${jobCodes }" itemLabel="label" itemValue="code"/>
+			</form:select> 
 		</p>
 		<input type="submit" value="결과보기">
 	</form:form>
 </body>
 </html>
+
+
+
+
