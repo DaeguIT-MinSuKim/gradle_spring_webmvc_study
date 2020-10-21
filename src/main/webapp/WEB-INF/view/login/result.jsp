@@ -10,5 +10,13 @@
 ${login.loginType }
 <br>
 ${login.jobCode }
+<br>
+${login.tool }
+<br>
+${login.favoriteOs }
+<br>
+${login.likeOs}
+<br>
+${login.subjects}
 </body>
 </html>

@@ -13,10 +13,6 @@
 	<form:form modelAttribute="login" action="result">
 		<p>
 			<label for="loginType">로그인 타입</label>
-			<form:select path="loginType" items="${loginTypes}" /> 
-		</p>	
-		<p>
-			<label for="loginType">로그인 타입</label>
 			<form:select path="loginType">
 				<option value="">-- 선택하세요 </option>
 				<form:options items="${loginTypes }"/>
@@ -28,6 +24,26 @@
 				<option value="">-- 선택하세요 </option>
 				<form:options items="${jobCodes }" itemLabel="label" itemValue="code"/>
 			</form:select> 
+		</p>
+		<p>
+		    <label for="tool">주로 사용하는 개발 툴</label><br>
+		    <form:radiobuttons items="${tools}" path="tool" delimiter="<br>"/>
+		</p>
+		<p>
+			<label>선호 OS</label>
+			<form:checkboxes items="${favoriteOsNames}" path="favoriteOs" delimiter=" "/>
+		</p>
+		<p>
+			<label>좋아하는 OS</label>
+			<form:checkboxes items="${likeOs}" path="likeOs" itemValue="code" itemLabel="label" delimiter=" "/>
+		</p>
+		<p>
+			<label for="subjects">좋아하는 과목</label>
+			<c:forEach items="${subjects}" var="subject" varStatus="vs">
+				<label>${subject.label }</label>
+				<form:checkbox name="subjects[${vs.index}].code" value="subjects[${vs.index}].${subject.code}" path="subjects[${vs.index}].code"/>
+				
+			</c:forEach>
 		</p>
 		<input type="submit" value="결과보기">
 	</form:form>
