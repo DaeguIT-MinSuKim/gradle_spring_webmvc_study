@@ -2,12 +2,16 @@ package gradle_spring_webmvc_study.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import gradle_spring_webmvc_study.dto.Code;
 import gradle_spring_webmvc_study.dto.Login;
@@ -33,6 +37,37 @@ public class LoginController {
         return "login/form";
     }
     
+    @GetMapping("/login3")
+    public String form3(){
+        return "login/form2";
+    }
+    @PostMapping("/result2")
+    public String result2(Model model, 
+            @RequestParam("loginType") String loginType,
+            @RequestParam("jobCode") String jobCode,
+            @RequestParam("likeOs") List<String> likeOs){
+        
+        model.addAttribute("loginType", loginType);
+        model.addAttribute("jobCode", jobCode);
+        
+        Map<String, Code> osMap = getLikeOsMap();
+        List<Code> likeOsCode = new ArrayList<Code>();
+        for(String os : likeOs) {
+            likeOsCode.add(osMap.get(os));
+        }
+        model.addAttribute("likeOs", likeOsCode);
+        return "login/result2";
+    }
+    
+    public Map<String, Code> getLikeOsMap(){
+        Map<String, Code> likeOs = new HashMap<String, Code>();
+        likeOs.put("O1", new Code("O1", "윈도우10"));
+        likeOs.put("O2",new Code("O2", "리눅스"));
+        likeOs.put("O3", new Code("O3", "유닉스"));
+        likeOs.put("O4",new Code("O4", "칼리리눅스"));
+        likeOs.put("O5",new Code("O5", "우분투"));
+        return likeOs;
+    }
     
     @PostMapping("/result")
     public String result(@ModelAttribute("login") Login login){

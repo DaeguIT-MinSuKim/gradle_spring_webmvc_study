@@ -5,11 +5,21 @@ import java.util.List;
 public class Login {
     private String loginType;
     private String jobCode;
+    private Code job;
     private String tool;
     private List<String> favoriteOs;
     private List<String> likeOs;
     private List<Code> subjects;
     private List<String> strSubjects;
+
+    
+    public Code getJob() {
+        return job;
+    }
+
+    public void setJob(Code job) {
+        this.job = job;
+    }
 
     public List<String> getStrSubjects() {
         return strSubjects;
