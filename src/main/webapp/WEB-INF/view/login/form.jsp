@@ -38,12 +38,8 @@
 			<form:checkboxes items="${likeOs}" path="likeOs" itemValue="code" itemLabel="label" delimiter=" "/>
 		</p>
 		<p>
-			<label for="subjects">좋아하는 과목</label>
-			<c:forEach items="${subjects}" var="subject" varStatus="vs">
-				<label>${subject.label }</label>
-				<form:checkbox name="subjects[${vs.index}].code" value="subjects[${vs.index}].${subject.code}" path="subjects[${vs.index}].code"/>
-				
-			</c:forEach>
+			<label for="strSubjects">좋아하는 과목</label>
+			<form:checkboxes items="${subjects}" path="strSubjects" itemValue="code" itemLabel="label" delimiter=" "/>
 		</p>
 		<input type="submit" value="결과보기">
 	</form:form>

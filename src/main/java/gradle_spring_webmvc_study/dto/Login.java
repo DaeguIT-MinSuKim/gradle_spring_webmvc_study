@@ -9,7 +9,16 @@ public class Login {
     private List<String> favoriteOs;
     private List<String> likeOs;
     private List<Code> subjects;
-    
+    private List<String> strSubjects;
+
+    public List<String> getStrSubjects() {
+        return strSubjects;
+    }
+
+    public void setStrSubjects(List<String> strSubjects) {
+        this.strSubjects = strSubjects;
+    }
+
     public List<Code> getSubjects() {
         return subjects;
     }

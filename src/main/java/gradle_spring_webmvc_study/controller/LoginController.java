@@ -36,7 +36,20 @@ public class LoginController {
     
     @PostMapping("/result")
     public String result(@ModelAttribute("login") Login login){
+        login.setSubjects(getSelectedSubjects(login.getStrSubjects()));
         return "login/result";
+    }
+
+    private List<Code> getSelectedSubjects(List<String> strSubjects) {
+        List<Code> subjects = getSubjects();
+        List<Code> selected = new ArrayList<>();
+        for(String c : strSubjects) {
+            Code code = new Code(c, null);
+            if (subjects.contains(code)) {
+                selected.add(subjects.get(subjects.indexOf(code)));
+            }
+        }
+        return selected;
     }
     
     @ModelAttribute("jobCodes")
