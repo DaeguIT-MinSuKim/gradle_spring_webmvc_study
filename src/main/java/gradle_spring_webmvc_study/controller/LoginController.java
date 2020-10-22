@@ -1,25 +1,50 @@
 package gradle_spring_webmvc_study.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import gradle_spring_webmvc_study.dto.Code;
-import gradle_spring_webmvc_study.dto.Login;
+import gradle_spring_webmvc_study.dto.AuthInfo;
+import gradle_spring_webmvc_study.dto.LoginCommand;
+import gradle_spring_webmvc_study.exception.WrongIdPasswordException;
+import gradle_spring_webmvc_study.service.AuthService;
 
 @Controller
-/*@RequestMapping("/login")*/
+@RequestMapping("/login")
 public class LoginController {
-    
+    @Autowired
+    private AuthService authService;
+
+    @GetMapping
+    public String form(LoginCommand loginCommand) {
+        return "/login/loginForm";
+    }
+
+    @PostMapping
+    public String submit(@Valid LoginCommand loginCommand, Errors errors) {
+//        new LoginCommandValidator().validate(loginCommand, errors);
+        if (errors.hasErrors())
+            return "/login/loginForm";
+        try {
+            AuthInfo authInfo = authService.authenicate(loginCommand.getEmail(), loginCommand.getPassword());
+            //TODO 세션에 authInfo 저장해야함
+            return "/login/loginSuccess";
+        }catch (WrongIdPasswordException ex) {
+            errors.reject("idPasswordNotMatching");
+            return "/login/loginForm";
+        }
+    }
+
+
+}
+
+
+/*
     @GetMapping("/login1")
     public String form1(Login login){
         return "login/form";
@@ -145,5 +170,5 @@ public class LoginController {
         subjects.add(new Code("S4", "칼리리눅스"));
         subjects.add(new Code("S5", "우분투"));
         return subjects;
-    }
-}
+    } 
+*/

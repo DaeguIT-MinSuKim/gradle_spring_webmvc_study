@@ -64,6 +64,12 @@ public class Member {
         this.password = newPassword;
     }
 
+    //패스워드 일치 여부
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    
     @Override
     public String toString() {
         return String.format("Member [id=%s, email=%s, password=%s, name=%s, registerDateTime=%s]", id, email, password,
