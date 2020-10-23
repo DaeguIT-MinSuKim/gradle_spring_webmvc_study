@@ -1,14 +1,18 @@
 package gradle_spring_webmvc_study.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import gradle_spring_webmvc_study.interceptor.AuthCheckInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -48,6 +52,15 @@ public class MvcConfig implements WebMvcConfigurer{
 //    public Validator getValidator() {
 //        return new RegisterRequestValidator();
 //    }
+    
+    @Autowired
+    private AuthCheckInterceptor authCheckInterceptor;
+    
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authCheckInterceptor).addPathPatterns("/edit/**");
+    }
+
 
 }
 
