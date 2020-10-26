@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Import;
         "gradle_spring_webmvc_study.service",
         "gradle_spring_webmvc_study.spring",
         "gradle_spring_webmvc_study.survey",
-        "gradle_spring_webmvc_study.interceptor"})
+        "gradle_spring_webmvc_study.interceptor",
+        "gradle_spring_webmvc_study.common"})
 public class ControllerConfig {
 
 }

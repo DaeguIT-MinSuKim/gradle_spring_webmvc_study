@@ -2,8 +2,10 @@ package gradle_spring_webmvc_study.spring;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -11,6 +13,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,20 @@ import gradle_spring_webmvc_study.dto.Member;
 public class MemberDao {
     private JdbcTemplate jdbcTemplate;
     
+    private RowMapper<Member> memberRowMapper = new RowMapper<Member>() {
+        @Override
+        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String email = rs.getString("EMAIL");
+            String password = rs.getString("PASSWORD");
+            String name = rs.getString("NAME");
+            LocalDateTime registerDateTime = rs.getTimestamp("REGDATE").toLocalDateTime();
+            Member member = new Member(email, password, name, registerDateTime);
+            member.setId(rs.getLong("ID"));
+            
+            return member;
+        }
+    };
+    
     @Autowired
     public MemberDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -29,7 +46,7 @@ public class MemberDao {
     /* 결과가 1개 인 경우 */
     public Member selectByEmail(String email) {
         String sql = "SELECT ID, EMAIL, PASSWORD, NAME, REGDATE FROM MEMBER WHERE EMAIL = ?";
-        return  jdbcTemplate.queryForObject(sql, new MemberRowMapper(), email);
+        return  jdbcTemplate.queryForObject(sql, memberRowMapper, email);
         /*        List<Member> results = jdbcTemplate.query("select * from member where email = ?", new MemberRowMapper(), email);
         return results.isEmpty()?null:results.get(0);*/
 
@@ -37,7 +54,7 @@ public class MemberDao {
     
     /* 결과가 1개 이상인 경우 */
     public List<Member> selectAll() {
-        return jdbcTemplate.query("SELECT ID, EMAIL, PASSWORD, NAME, REGDATE FROM MEMBER", new MemberRowMapper());
+        return jdbcTemplate.query("SELECT ID, EMAIL, PASSWORD, NAME, REGDATE FROM MEMBER", memberRowMapper);
     }
     
     /* 결과가 1개 인 경우 */
@@ -81,26 +98,15 @@ public class MemberDao {
         jdbcTemplate.update("update member set name=?, password=? where email=?", member.getName(), member.getPassword(), member.getEmail());
     }
 
-    
-    /*private static long nextId = 0;
-    
-    private Map<String, Member> map = new HashMap<>();
-    
-    public Member selectByEmail(String email) {
-        return map.get(email);
+    public List<Member> selectByRegdate(LocalDateTime from, LocalDateTime to){
+        String sql = "select * from member where regdate between ? and ? order by regdate desc";
+        return jdbcTemplate.query(sql, memberRowMapper, from , to);
     }
-    
-    public void insert(Member member) {
-        member.setId(++nextId);
-        map.put(member.getEmail(), member);
+
+    public Member selectById(Long memId) {
+        String sql = "select * from member where id = ?";
+        List<Member> results = jdbcTemplate.query(sql, memberRowMapper, memId);
+        return results.isEmpty()? null:results.get(0);
     }
-    
-    public void update(Member member) {
-        map.put(member.getEmail(), member);
-    }
-    
-    public Collection<Member> selectAll() {
-        return map.values();
-    }
-    */
+
 }
