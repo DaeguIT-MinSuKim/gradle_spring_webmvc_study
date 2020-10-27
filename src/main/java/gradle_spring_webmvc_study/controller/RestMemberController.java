@@ -27,12 +27,6 @@ public class RestMemberController {
     @Autowired
     private MemberRegisterService registerService;
     
-    @GetMapping("/memberList")
-    public ModelAndView getMemberList() {
-        ModelAndView mav = new ModelAndView("/rest/list");
-        return mav;
-    }
-    
     @GetMapping("/api/members")
     public List<Member> members(){
         return memberDao.selectAll();
