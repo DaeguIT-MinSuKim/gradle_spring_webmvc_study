@@ -29,6 +29,8 @@ public class MemberRegisterService {
                 throw new DuplicateMemberException("dup email " + req.getEmail());
             }
         }catch(EmptyResultDataAccessException e) {
+            
+        }finally {
             member = new Member(req.getEmail(), req.getPassword(), req.getName(), LocalDateTime.now());
             memberDao.insert(member);
         }
