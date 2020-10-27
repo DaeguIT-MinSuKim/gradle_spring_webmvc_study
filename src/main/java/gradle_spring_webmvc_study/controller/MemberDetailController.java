@@ -28,7 +28,6 @@ public class MemberDetailController {
         mav.setViewName("member/memberDetail");
         return mav;
     }
-
     
     @ExceptionHandler(TypeMismatchException.class)
     public String handleTypeMismatchException() {
